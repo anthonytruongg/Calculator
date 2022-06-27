@@ -54,209 +54,244 @@ const displayNum = document.querySelector(".display")
 // -------------------------------------------------------------------
 const userArray = []
 const tempArray = []
+const operator = []
+
 var finalArray = 0
 var secondArray = 0
-var operator = ""
+
 var updateDisplay = 0
+
+
+
 
 function selectZero(num1) {
     num1 = 0
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectOne(num1) {
     num1 = 1
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectTwo(num1) {
     num1 = 2
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectThree(num1) {
     num1 = 3
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectFour(num1) {
     num1 = 4
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectFive(num1) {
     num1 = 5
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectSix(num1) {
     num1 = 6
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectSeven(num1) {
     num1 = 7
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectEight(num1) {
     num1 = 8
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectNine(num1) {
     num1 = 9
     userArray.push(num1)
     updateDisplay = parseInt(userArray.join(''))
-
     displayNum.textContent = updateDisplay
-    console.log(userArray)
 }
 function selectClear() {
     userArray.splice(0,userArray.length)
+    tempArray.splice(0,tempArray.length)
+    operator.splice(0,operator.length)
     displayNum.textContent = 0
 }
 // -------------------------------------------------------------------
 // Converting array into one big int function along with calling operations
 function selectPlus() {
+    // pushing number into the temp array
     tempArray.push(updateDisplay)
-    console.log(tempArray)
-    var sum = 0
-    for (let i = 0; i < tempArray.length; i++) {
-        sum += tempArray[i];
-    }
-
+    operator.push("+")
+    console.log("TEMP ARRAY",tempArray)
+    // clearing input 
     finalArray = parseInt(userArray.join(''))
     userArray.splice(0,userArray.length)
-    
-    operator = "plus"
-    displayNum.textContent = sum
+   
 
 
+    operate(tempArray, operator)
+    // operator = "plus"
+    // operate()
 }
 function selectSubtract() {
     // left off here, work on this function
     tempArray.push(updateDisplay)
+    operator.push("-")
     console.log(tempArray)
-    var sum = 0
-    for (let i = 0; i < tempArray.length; i++) {
-        sum -= tempArray[i];
-    }
-
+    
     finalArray = parseInt(userArray.join(''))
     userArray.splice(0,userArray.length)
+    operate(tempArray, operator)
+
     
-    operator = "subtract"
-    displayNum.textContent = sum
 }
 function selectDivide() {
+    tempArray.push(updateDisplay)
+    operator.push("/")
+    console.log(tempArray)
+    
     finalArray = parseInt(userArray.join(''))
     userArray.splice(0,userArray.length)
-  
-    tempArray.push(updateDisplay)
-    console.log(tempArray)
-    var sum = 0
-    for (let i = 0; i < tempArray.length; i++) {
-        sum /= tempArray[i];
-    }
-
-    operator = "divide"
-    displayNum.textContent = sum
+    operate(tempArray, operator)
 
 }
 function selectMultiply() {
+    tempArray.push(updateDisplay)
+    operator.push("*")
+    console.log(tempArray)
+    
     finalArray = parseInt(userArray.join(''))
     userArray.splice(0,userArray.length)
+    operate(tempArray, operator)
+
     
-    tempArray.push(updateDisplay)
-    console.log(tempArray)
-    var sum = 0
-    for (let i = 0; i < tempArray.length; i++) {
-        sum *= tempArray[i];
-    }
-
-    operator = "multiply"
-    displayNum.textContent = sum
-
 }
 function selectEquals() {
     console.log("equals ?")
-    secondArray = parseInt(userArray.join(''))
-    userArray.splice(0,userArray.length)
-
-    operate(finalArray, secondArray)
+    tempArray.push(updateDisplay)
+    operate(tempArray)
 }
 // -------------------------------------------------------------------
 // Simple Functions
 
 function addition() {
-    let result = finalArray + secondArray
-    let rounded = Math.round(result * 100) / 100
-    return displayNum.textContent = rounded
+    if(operator.length > 1) {
+        operator.shift()
+    }
+    var total = 0
+    for (let i = 0; i < tempArray.length; i++) {
+        total += tempArray[i];
+    }
+    if(tempArray.length > 1) {
+        tempArray.splice(0,tempArray.length)
+        tempArray.push(total)
+    }
+    displayNum.textContent = total
+
+}
+function subtraction() 
+ {
+    var total = tempArray[0]
+    for (var i = 1, length = tempArray.length; i < length; i++)
+    {
+      if (typeof (tempArray[i]) === 'number')
+      {
+        total -= tempArray[i];
+      } 
+      else 
+      return false;
+    }
+    if(operator.length > 1) {
+        operator.shift()
+    }
+    if(tempArray.length > 1) {
+        tempArray.splice(0,tempArray.length)
+        tempArray.push(total)
+    }
+    displayNum.textContent = total
+
+//     // let result = finalArray - secondArray
+//     // let rounded = Math.round(result * 100) / 100
+//     // return displayNum.textContent = rounded
 }
 
-function subtraction() {
-    let result = finalArray - secondArray
-    let rounded = Math.round(result * 100) / 100
-    return displayNum.textContent = rounded
-}
 
 function division() {
-    let result = (finalArray / secondArray)
-    let rounded = Math.round(result * 100) / 100
-    return displayNum.textContent = rounded
+    var total = tempArray[0]
+    for (var i = 1, length = tempArray.length; i < length; i++)
+    {
+      if (typeof (tempArray[i]) === 'number')
+      {
+        total /= tempArray[i];
+      } 
+      else 
+      return false;
+    }
+    if(operator.length > 1) {
+        operator.shift()
+    }
+    if(tempArray.length > 1) {
+        tempArray.splice(0,tempArray.length)
+        tempArray.push(total)
+    }
+    displayNum.textContent = total
 }
 
 function multiplication() { 
-    let result = (finalArray * secondArray)
-    let rounded = Math.round(result * 100) / 100
-    return displayNum.textContent = rounded
+    var total = tempArray[0]
+    for (var i = 1, length = tempArray.length; i < length; i++)
+    {
+      if (typeof (tempArray[i]) === 'number')
+      {
+        total *= tempArray[i];
+      } 
+      else 
+      return false;
+    }
+    if(operator.length > 1) {
+        operator.shift()
+    }
+    if(tempArray.length > 1) {
+        tempArray.splice(0,tempArray.length)
+        tempArray.push(total)
+    }
+    displayNum.textContent = total
+    // let result = (finalArray * secondArray)
+    // let rounded = Math.round(result * 100) / 100
+    // return displayNum.textContent = rounded
 }
 // -------------------------------------------------------------------
 // Operator Function
 function operate () {
-    if(operator == "plus") {
-        addition(finalArray, secondArray)
-    }
-    if(operator == "subtract") {
-        subtraction(finalArray, secondArray)
-    }
-    if(operator == "divide") {
-        division(finalArray, secondArray)
-    }
-    if(operator == "multiply") {
-        multiplication(finalArray, secondArray)
-    } else {
-        return 0
-    }
+   if(operator[0] == ("+")) {
+    console.log("plus", operator)
+    addition(tempArray)
+   }
+   if(operator[0] == ("-")) {
+    console.log("minus", operator)
+    subtraction(tempArray)
+   }
+   if(operator[0] == "*") {
+    multiplication(tempArray)
+   }
+   if(operator[0] == "/") {
+    division(tempArray)
+   }
+    //displayNum.textContent = total
+
+
 }
-
-
-
-
